@@ -1,3 +1,5 @@
+![](extra/3logo2)
+
 # R workshop 2022
 
 Structure: 5 x two-hour sessions, each with presentation of course material, and time during which participants can work on exercises or with their own data.
