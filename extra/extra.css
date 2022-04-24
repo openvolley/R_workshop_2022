@@ -1,0 +1,197 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+@import url(https://fonts.googleapis.com/css?family=Patua+One);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
+
+a, a > code {
+  color: rgb(249, 38, 114);
+  text-decoration: none;
+}
+.footnote {
+  position: absolute;
+  bottom: 15%;
+  padding-right: 4em;
+  font-size: 90%;
+}
+.remark-code-line-highlighted     { background-color: #ffff88; }
+
+.inverse {
+  background-color: #A41024;
+  color: #d6d6d6;
+  text-shadow: 0 0 20px #333;
+}
+.inverse h1, .inverse h2, .inverse h3 {
+  color: #f3f3f3;
+}
+.logo h1 {
+text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+}
+.logo h2, .logo h3 {
+text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+
+/* Two-column layout */
+.left-column {
+  color: #777;
+  width: 20%;
+  height: 92%;
+  float: left;
+}
+.left-column h2:last-of-type, .left-column h3:last-child {
+  color: #000;
+}
+.right-column {
+  width: 75%;
+  float: right;
+  padding-top: 1em;
+}
+.pull-left {
+  float: left;
+  width: 47%;
+}
+.pull-right {
+  float: right;
+  width: 47%;
+}
+.pull-right ~ * {
+  clear: both;
+}
+img, video, iframe {
+  max-width: 100%;
+}
+blockquote {
+  border-left: solid 5px lightgray;
+  padding-left: 1em;
+}
+table {
+  margin: auto;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+table thead th { border-bottom: 1px solid #ddd; }
+th, td { padding: 5px; }
+thead, tfoot, tr:nth-child(even) { background: #eee }
+
+@media print {
+  .remark-slide-scaler {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
+
+
+.remark-slide-number { display:none; }
+@page {
+  size: 1210px 681px;
+  margin: 0;
+}
+
+table {
+    font-size: small;
+}
+td {
+    vertical-align: top;
+}
+
+body { font-family: 'Raleway', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif; }
+h1, h2, h3 {
+    font-family: 'Patua One';
+    font-weight: normal;
+}
+
+h2 { margin-top: 5px; margin-bottom: 15px; }
+
+.remark-code, .remark-inline-code { font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; }
+
+div.my-footer {
+    background-color: #A41024;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 8vh;
+    width: 90%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.logo div.my-footer {
+    display:none;
+    height: 20vh;
+}
+
+div.my-footer-box {
+    width: 25%;
+    height: 100%;
+    display: inline;
+}
+
+div.my-footer-box a img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+li {
+    margin-bottom: 1ex;
+}
+
+.remark-inline-code {
+  background: #e7e8e2;
+  border-radius: 6px;
+  padding: 4px;
+  color: #803030;
+}
+
+.digression {
+  background-color: #eff;
+}
+
+.centred {
+    display: block; margin-left: auto; margin-right: auto;
+}
+
+
+/*.logo {
+    background-image: url("3logo.png");
+    background-position: center;
+    background-size: contain;
+}*/
+
+/*.logo div.my-footer {
+    background: none;
+}*/
+
+.column {
+  float: left;
+  width: 45.00%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.pkg, .nonpkg, .Rpkg {
+    border-radius: 6px;
+    border: 1px black;
+    padding-left: 1ex; padding-right:1ex;
+    padding-top: 4px; padding-bottom: 4px;
+}
+.pkg {
+    background-color: #3090F0;
+}
+.Rpkg {
+    background-color: #F06060;
+}
+.nonpkg {
+    background-color: #c0c000;
+}
