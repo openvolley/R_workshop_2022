@@ -16,7 +16,7 @@ options(width=120)
 ```
 
 <style>
-details summary { font-weight:bold; background-color:blue; color:white; }
+details summary { font-weight:bold; color:#A41024; }
 .main-container { max-width: 90%; }
 #footer { margin-top:24px; margin-bottom: 24px; height:80px; background: #A41024 url("extra/3logo2.png") no-repeat center; background-size:contain; }
 #header { background: #A41024 url("extra/3logo2.png") no-repeat 95% center; background-size: 20%; color: white; border-radius:8px; padding:24px; }
@@ -68,18 +68,20 @@ x <- x %>% dplyr::filter(!match_id %in% dud_matches)
 
 5. On average, how many sets were played per match?
 
-6. List the top 10 teams in terms of the most matches played
+6. How many matches did Weber State play?
 
-7. What was the average winning margin of a set?
+7. List the top 10 teams in terms of the most matches played
 
-8. Does that vary by set number 1--5?
+8. What was the average winning margin of a set?
 
-9. Plot a histogram of the score margin (all sets combined)
+9. Does that vary by set number 1--5?
 
-10. Same thing with each set shown separately
+10. Plot a histogram of the score margin (all sets combined)
 
-11. Find the most one-sided set result
+11. Same thing with each set shown separately
 
-12. Is there a home team advantage? Find the match win rate for the home team (ignore the fact that some of these matches were played at neutral venues --- just take the `home_team` and `visiting_team` column names on face value)
+12. Find the most one-sided set result
+
+13. Is there a home team advantage? Find the match win rate for the home team (ignore the fact that some of these matches were played at neutral venues --- just take the `home_team` and `visiting_team` column names on face value)
 
 <div id="footer"></div>
