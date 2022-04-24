@@ -1,0 +1,85 @@
+---
+title: "Session 1 Exercises"
+author: "Ben Raymond, Adrien Ickowicz"
+output:
+  html_document:
+    toc: false
+    theme: flatly
+    highlight: zenburn
+
+---
+
+```{r chunkopts, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+options(width=120)
+
+```
+
+<style>
+details summary { font-weight:bold; background-color:blue; color:white; }
+.main-container { max-width: 90%; }
+#footer { margin-top:24px; margin-bottom: 24px; height:80px; background: #A41024 url("extra/3logo2.png") no-repeat center; background-size:contain; }
+#header { background: #A41024 url("extra/3logo2.png") no-repeat 95% center; background-size: 20%; color: white; border-radius:8px; padding:24px; }
+h1.title { margin-top:11px; margin-bottom:11px; }
+pre,p { font-size:110%; }
+</style>
+
+# Preparation
+
+Load some packages:
+
+```{r setup}
+library(tidyverse)
+library(lubridate)
+
+```
+
+And read in our data (set scores from the 2019 D1 Women's NCAA competition, scraped from the NCAA web site).
+
+```{r data}
+x <- read_csv("example_data/NCAA_D1W_2019.csv")
+head(x)
+
+glimpse(x)
+
+## fix date column
+x$date <- ymd(x$date)
+## or use
+## x$date <- as.Date(x$date)
+
+## remove any rows with missing data
+x <- na.omit(x)
+
+## invalid set scores
+dud_matches <- x %>% dplyr::filter(abs(home_team_score - visiting_team_score) > 2 & pmax(home_team_score, visiting_team_score) > 25) %>% pull(match_id)
+x <- x %>% dplyr::filter(!match_id %in% dud_matches)
+
+```
+
+# Exercises
+
+1. What is the date range of the matches?
+
+2. How many matches were played?
+
+3. How many teams?
+
+4. Count the number of matches that went to 3, 4, and 5 sets
+
+5. On average, how many sets were played per match?
+
+6. List the top 10 teams in terms of the most matches played
+
+7. What was the average winning margin of a set?
+
+8. Does that vary by set number 1--5?
+
+9. Plot a histogram of the score margin (all sets combined)
+
+10. Same thing with each set shown separately
+
+11. Find the most one-sided set result
+
+12. Is there a home team advantage? Find the match win rate for the home team (ignore the fact that some of these matches were played at neutral venues --- just take the `home_team` and `visiting_team` column names on face value)
+
+<div id="footer"></div>
