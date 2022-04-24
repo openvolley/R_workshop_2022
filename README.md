@@ -1,4 +1,4 @@
-![](extra/3logo2.png)
+![](extra/3logo2red.png)
 
 # R workshop 2022
 
