@@ -1,0 +1,6 @@
+details summary { font-weight:bold; color:#A41024; }
+.main-container { max-width: 90%; }
+#footer { margin-top:24px; margin-bottom: 24px; height:80px; background: #A41024 url("3logo2.png") no-repeat center; background-size:contain; }
+#header { background: #A41024 url("3logo2.png") no-repeat 95% center; background-size: 20%; color: white; border-radius:8px; padding:24px; }
+h1.title { margin-top:11px; margin-bottom:11px; }
+pre,p { font-size:110%; }

@@ -6,24 +6,15 @@ output:
     toc: false
     theme: flatly
     highlight: zenburn
-
+    css: "extra/exercises.css"
 ---
 
 ```{r chunkopts, eval = TRUE, echo = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
-options(width=140)
-options(tibble.width = 140, tibble.print_max = 10, tibble.print_min = 10)
+options(width=80)
+options(tibble.width = 80, tibble.print_max = 10, tibble.print_min = 10)
 
 ```
-
-<style>
-details summary { font-weight:bold; color:#A41024; }
-.main-container { max-width: 90%; }
-#footer { margin-top:24px; margin-bottom: 24px; height:80px; background: #A41024 url("extra/3logo2.png") no-repeat center; background-size:contain; }
-#header { background: #A41024 url("extra/3logo2.png") no-repeat 95% center; background-size: 20%; color: white; border-radius:8px; padding:24px; }
-h1.title { margin-top:11px; margin-bottom:11px; }
-pre,p { font-size:110%; }
-</style>
 
 # Preparation
 
@@ -39,21 +30,8 @@ And read in our data (set scores from the 2019 D1 Women's NCAA competition, scra
 
 ```{r data}
 x <- read_csv("example_data/NCAA_D1W_2019.csv")
-head(x)
 
 glimpse(x)
-
-## fix date column
-x$date <- ymd(x$date)
-## or use
-## x$date <- as.Date(x$date)
-
-## remove any rows with missing data
-x <- na.omit(x)
-
-## invalid set scores
-dud_matches <- x %>% dplyr::filter(abs(home_team_score - visiting_team_score) > 2 & pmax(home_team_score, visiting_team_score) > 25) %>% pull(match_id)
-x <- x %>% dplyr::filter(!match_id %in% dud_matches)
 
 ```
 
