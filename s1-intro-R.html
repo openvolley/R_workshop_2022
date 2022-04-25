@@ -35,13 +35,12 @@ class: inverse, logo, center
 
 
 ---
-## What are we going to talk about
+## What are we going to talk about in this session
 
 - introductions
 - the openvolley project
-- Science Untangled
 - R in general
-- aims for this workshop
+- aims for this workshop, session outlines
 - using R, first details
 
 
@@ -237,7 +236,9 @@ This is (broadly) the same as using `x = 1` ...
 ## R &amp;mdash; Data structures: vectors
 
 - constructing with e.g. `c()`
+
 - sequences
+
 - indexing
 
 ---
@@ -354,8 +355,73 @@ y &lt;- data.frame(Var1 = c(1, 2, 2),
 ## R &amp;mdash; Programming:
 
 - control: `if` statements
-- repetition: `for` loops, `lapply` and `sapply`
+
+
+```r
+if (condition) {
+    ## do stuff
+} else if (other_condition) {
+    ## do other stuff
+} else {
+    ## yet more stuff
+}
+```
+
+---
+## R &amp;mdash; Programming:
+
+- repetition: `for` loops
+
+
+```r
+for (variable in vector) {
+    ## do something with variable
+}
+```
+
+- iterates through each element in `vector` and runs the code inside the braces
+
+
+- Avoid e.g. : `for (i in 1:length(x))`
+
+  - use `for (i in seq_len(length(x)))`
+
+      or `for (i in seq_along(x))`
+
+---
+## R &amp;mdash; Programming:
+
+- repetition: `lapply`
+
+
+```r
+lapply(vector, fun)
+```
+
+- applies function `fun` to each element in `vector` and returns all results in a list
+
+
+---
+## R &amp;mdash; Programming:
+
 - writing functions
+
+
+```r
+myfun &lt;- function(a, b) {
+    y &lt;- a + b ## code that operates on parameters a and b
+    return(y)
+}
+```
+
+- `lapply` with your own function can be useful:
+
+
+```r
+y &lt;- lapply(x, function(z) {
+    ## do something to each element of x
+})
+```
 
 ---
 ## R &amp;mdash; Packages
@@ -494,15 +560,6 @@ x
 ## R &amp;mdash; dplyr
 
 The pipe operator `%&gt;%`
-
-
-```r
-intermediate_result &lt;- do_something(data)
-final_result &lt;- do_something_else(intermediate_result)
-```
-
-equivalent to
-
 
 
 ```r
@@ -879,7 +936,7 @@ Plotting with base graphics
 plot(x$R_POS, x$FBSO)
 ```
 
-![](s1-intro-R_files/figure-html/unnamed-chunk-33-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-37-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -904,7 +961,7 @@ library(ggplot2)
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point()
 ```
 
-![](s1-intro-R_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot
@@ -913,7 +970,7 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point()
 ```r
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(`aes(col = Team)`)
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot
@@ -923,7 +980,7 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(`aes(col = Team)`)
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(`col = "red"`) +
     `geom_text(aes(label = Team))`
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-42-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot
@@ -933,7 +990,7 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(`col = "red"`) +
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
     geom_text(aes(label = Team)`, hjust = -0.1`)
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-44-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot
@@ -943,7 +1000,7 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
  geom_text(aes(label = Team), hjust = -0.1)` + xlim(c(NA, 58))`
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-42-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-46-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot
@@ -951,10 +1008,10 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
 
 ```r
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
- `stat_smooth(method = "lm", se = FALSE) +`
+ `geom_smooth(method = "lm", se = FALSE) +`
  geom_text(aes(label = Team), hjust = -0.1) + xlim(c(NA, 58))
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-44-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-48-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot
@@ -962,11 +1019,11 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
 
 ```r
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
- stat_smooth(method = "lm", se = FALSE) + `theme_bw() +`
+ geom_smooth(method = "lm", se = FALSE) + `theme_bw() +`
  geom_text(aes(label = Team), hjust = -0.1) + xlim(c(NA, 58)) +
  `labs(x = "Positive/perfect reception %", y = "First ball sideout %")`
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-46-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-50-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot: other geometries
@@ -977,7 +1034,7 @@ ggplot(x, aes(x = REC_ATT_EFF)) +
     `geom_histogram`(binwidth = 2.5, col = "black", fill = "grey50") +
     theme_bw() + labs(x = "Reception attack efficiency")
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-48-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-52-1.png)&lt;!-- --&gt;
 
 ---
 ## R &amp;mdash; ggplot: subplots (facets)
@@ -989,7 +1046,7 @@ ggplot(x, aes(x = REC_ATT_EFF)) +
     `facet_wrap(~Status)` +
     theme_bw() + labs(x = "Reception attack efficiency")
 ```
-![](s1-intro-R_files/figure-html/unnamed-chunk-50-1.png)&lt;!-- --&gt;
+![](s1-intro-R_files/figure-html/unnamed-chunk-54-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -1012,7 +1069,7 @@ ggplot(x, aes(x = REC_ATT_EFF)) +
 ---
 ## R &amp;mdash; Exercises
 
-Open `s1-exercises.Rmd` in Rstudio
+Open `s1-exercises.Rmd` in Rstudio, or `s1-exercises.html` in a browser.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

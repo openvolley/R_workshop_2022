@@ -49,13 +49,12 @@ class: inverse, logo, center
 
 
 ---
-## What are we going to talk about
+## What are we going to talk about in this session
 
 - introductions
 - the openvolley project
-- Science Untangled
 - R in general
-- aims for this workshop
+- aims for this workshop, session outlines
 - using R, first details
 
 
@@ -246,7 +245,9 @@ This is (broadly) the same as using `x = 1` ...
 ## R &mdash; Data structures: vectors
 
 - constructing with e.g. `c()`
+
 - sequences
+
 - indexing
 
 ---
@@ -340,8 +341,75 @@ y <- data.frame(Var1 = c(1, 2, 2),
 ## R &mdash; Programming:
 
 - control: `if` statements
-- repetition: `for` loops, `lapply` and `sapply`
+
+```{r eval = FALSE}
+
+if (condition) {
+    ## do stuff
+} else if (other_condition) {
+    ## do other stuff
+} else {
+    ## yet more stuff
+}
+
+```
+
+---
+## R &mdash; Programming:
+
+- repetition: `for` loops
+
+```{r eval = FALSE}
+for (variable in vector) {
+    ## do something with variable
+}
+
+```
+
+- iterates through each element in `vector` and runs the code inside the braces
+
+
+- Avoid e.g. : `for (i in 1:length(x))`
+
+  - use `for (i in seq_len(length(x)))`
+
+      or `for (i in seq_along(x))`
+
+---
+## R &mdash; Programming:
+
+- repetition: `lapply`
+
+```{r eval = FALSE}
+lapply(vector, fun)
+
+```
+
+- applies function `fun` to each element in `vector` and returns all results in a list
+
+
+---
+## R &mdash; Programming:
+
 - writing functions
+
+```{r eval = FALSE}
+
+myfun <- function(a, b) {
+    y <- a + b ## code that operates on parameters a and b
+    return(y)
+}
+
+```
+
+- `lapply` with your own function can be useful:
+
+```{r eval = FALSE}
+y <- lapply(x, function(z) {
+    ## do something to each element of x
+})
+
+```
 
 ---
 ## R &mdash; Packages
@@ -457,15 +525,6 @@ x
 ## R &mdash; dplyr
 
 The pipe operator `%>%`
-
-```{r eval = FALSE}
-intermediate_result <- do_something(data)
-final_result <- do_something_else(intermediate_result)
-
-```
-
-equivalent to
-
 
 ```{r eval = FALSE}
 final_result <- data %>% do_something %>% do_something_else
@@ -712,13 +771,13 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
 
 ```{r eval = FALSE}
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
- `stat_smooth(method = "lm", se = FALSE) +`
+ `geom_smooth(method = "lm", se = FALSE) +`
  geom_text(aes(label = Team), hjust = -0.1) + xlim(c(NA, 58))
 
 ```
 ```{r echo = FALSE}
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
- stat_smooth(method = "lm", se = FALSE) +
+ geom_smooth(method = "lm", se = FALSE) +
  geom_text(aes(label = Team), hjust = -0.1) + xlim(c(NA, 58))
 
 ```
@@ -728,14 +787,14 @@ ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
 
 ```{r eval = FALSE}
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
- stat_smooth(method = "lm", se = FALSE) + `theme_bw() +`
+ geom_smooth(method = "lm", se = FALSE) + `theme_bw() +`
  geom_text(aes(label = Team), hjust = -0.1) + xlim(c(NA, 58)) +
  `labs(x = "Positive/perfect reception %", y = "First ball sideout %")`
 
 ```
 ```{r echo = FALSE}
 ggplot(x, aes(x = R_POS, y = FBSO)) + geom_point(col = "red") +
- stat_smooth(method = "lm", se = FALSE) + theme_bw() +
+ geom_smooth(method = "lm", se = FALSE) + theme_bw() +
  geom_text(aes(label = Team), hjust = -0.1) + xlim(c(NA, 58)) +
  labs(x = "Positive/perfect reception %", y = "First ball sideout %")
 
@@ -796,5 +855,5 @@ ggplot(x, aes(x = REC_ATT_EFF)) +
 ---
 ## R &mdash; Exercises
 
-Open `s1-exercises.Rmd` in Rstudio
+Open `s1-exercises.Rmd` in Rstudio, or `s1-exercises.html` in a browser.
 
