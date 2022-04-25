@@ -33,7 +33,7 @@ library(dplyr)
 library(ggplot2)
 library(datavolley)
 library(knitr)
-options(tibble.width = 65, tibble.print_max = 10, tibble.print_min = 10)
+options(tibble.width = 65, tibble.print_max = 10, tibble.print_min = 10, width = 80)
 
 ```
 
@@ -779,6 +779,11 @@ ggplot(x, aes(x = REC_ATT_EFF)) +
 ---
 ## R &mdash; Getting help
 
+- on specific functions or packages
+
+  - `? function_name`, equivalently `help("function_name")`
+  - package vignettes
+
 - general R
 
   - the [R-help mailing list](https://stat.ethz.ch/mailman/listinfo/r-help), [stackoverflow.com](https://stackoverflow.com)
@@ -786,7 +791,7 @@ ggplot(x, aes(x = REC_ATT_EFF)) +
 
   - the openvolley Slack
   - https://openvolley.org/volley-analytics-snippets
-  - found a bug? raise an issue on GitHub
+  - found a bug? Have a suggestion? Raise an issue on GitHub
 
 ---
 ## R &mdash; Exercises
