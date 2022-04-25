@@ -1,0 +1,263 @@
+---
+title: "Session 1 Exercises (with answers)"
+author: "Ben Raymond, Adrien Ickowicz"
+output:
+  html_document:
+    toc: false
+    theme: flatly
+    highlight: zenburn
+    css: "extra/exercises.css"
+---
+
+```{r chunkopts, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+options(width=80)
+options(tibble.width = 80, tibble.print_max = 10, tibble.print_min = 10)
+
+```
+
+# Preparation
+
+Load some packages:
+
+```{r setup}
+library(tidyverse)
+library(lubridate)
+
+```
+
+And read in our data (set scores from the 2019 D1 Women's NCAA competition, scraped from the NCAA web site).
+
+```{r data}
+x <- read_csv("example_data/NCAA_D1W_2019.csv")
+
+glimpse(x)
+
+```
+
+# Exercises
+
+### 1. What is the date range of the matches?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+range(x$date)
+```
+
+</details>
+
+
+### 2. How many matches were played?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+length(unique(x$match_id))
+```
+
+</details>
+
+### 3. How many teams?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+length(unique(c(x$home_team, x$visiting_team)))
+```
+
+</details>
+
+### 4. Count the number of matches that went to 3, 4, and 5 sets
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+x %>% group_by(match_id) %>% slice(1) %>% ungroup %>% ## one row per match
+    count(match_n_sets) ## count the number of times each value of match_n_sets appears
+
+## or
+x %>% distinct(match_id, match_n_sets) %>%
+    count(match_n_sets)
+```
+
+</details>
+
+### 5. On average, how many sets were played per match?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+x %>% group_by(match_id) %>% slice(1) %>% ungroup %>%
+    dplyr::summarize(mean_n_sets = mean(match_n_sets))
+
+## or
+nrow(x) / length(unique(x$match_id))
+```
+
+</details>
+
+### 6. How many matches did Weber State play?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+x %>% filter(home_team == "Weber State" | visiting_team == "Weber State") %>%
+    summarize(n_matches = length(unique(match_id)))
+
+```
+or perhaps
+
+```{r}
+x %>% filter(home_team == "Weber State" | visiting_team == "Weber State") %>%
+    distinct(match_id) %>% nrow
+
+```
+
+or even
+
+```{r}
+length(unique(x$match_id[x$home_team == "Weber State" | x$visiting_team == "Weber State"]))
+
+```
+
+</details>
+
+### 7. List the top 10 teams in terms of the most matches played
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+bind_rows(x %>% distinct(match_id, team = home_team),
+          x %>% distinct(match_id, team = visiting_team)) %>%
+    count(team) %>% ## count the number of times each team name appears
+    dplyr::arrange(desc(n)) %>% ## arrange in decreasing count order
+    head(10) ## first 10 rows
+
+```
+
+</details>
+
+### 8. Can you re-create the `margin` column, using the other columns in the data set?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+## add some extra columns
+x <- x %>% mutate(margin = abs(home_team_score - visiting_team_score))
+
+```
+
+</details>
+
+
+### 9. What was the average winning margin of a set?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+mean(x$margin)
+```
+
+</details>
+
+
+### 10. Does that vary by set number 1--5?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+x %>% group_by(set_number) %>% dplyr::summarize(mean_winning_margin = mean(margin))
+```
+
+</details>
+
+### 11. Plot a histogram of the score margin (all sets combined)
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+ggplot(x, aes(x = margin)) + geom_histogram(binwidth = 1) +
+    labs(x = "Score margin", y = "Number of matches")
+```
+
+</details>
+
+
+### 12. Same thing with each set shown separately
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+ggplot(x, aes(x = margin)) + geom_histogram(binwidth = 1) +
+    facet_wrap(~set_number) +
+    labs(x = "Score margin", y = "Number of matches")
+
+## or
+ggplot(x, aes(x = margin, group = set_number, fill = as.factor(set_number))) +
+    geom_histogram(binwidth = 1, position = "dodge") + scale_fill_discrete(name = "Set number") +
+    labs(x = "Score margin", y = "Number of matches")
+```
+
+</details>
+
+### 13. Find the most one-sided set result
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+x %>% slice_max(margin)
+
+## or
+x[which(x$margin == max(x$margin)), ]
+```
+
+</details>
+
+### 14. Is there a home team advantage? Find the match win rate for the home team (ignore the fact that some of these matches were played at neutral venues --- just take the `home_team` and `visiting_team` column names on face value)
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+x <- x %>% group_by(match_id) %>% mutate(match_won_by = case_when(home_team_set_score > visiting_team_set_score ~ home_team,
+                                                                  TRUE ~ visiting_team)) %>%
+    ungroup
+
+## but
+x %>% dplyr::filter(match_won_by == visiting_team & visiting_team_set_score <= home_team_set_score)
+
+## so
+x <- x %>% group_by(match_id) %>% mutate(match_won_by = case_when(home_team_set_score > visiting_team_set_score ~ home_team,
+                                                                  visiting_team_set_score > home_team_set_score ~ visiting_team)) %>%
+    ungroup
+
+x <- x %>% mutate(home_team_won_match = case_when(match_won_by == home_team ~ TRUE,
+                                                  match_won_by == visiting_team ~ FALSE))
+
+## and finally
+x %>% group_by(match_id) %>% slice(1) %>% ungroup %>%
+    dplyr::summarize(p_home_win = mean(home_team_won_match, na.rm = TRUE))
+
+## or
+x %>% distinct(match_id, home_team_won_match) %>%
+    dplyr::summarize(p_home_win = mean(home_team_won_match, na.rm = TRUE))
+```
+
+</details>
+
+<div id="footer"></div>
+
