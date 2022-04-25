@@ -4,6 +4,35 @@
 
 Structure: 5 x two-hour sessions, each with presentation of course material, and time during which participants can work on exercises or with their own data.
 
+## Preparation
+
+Participants are asked to install R, RStudio, Git, and some R packages in preparation for the workshop, if they do not already have these on their computer.
+
+1. Download and install R
+
+   https://cran.r-project.org/
+
+2. Download and install RStudio
+
+   https://www.rstudio.com/products/rstudio/download/#download
+
+3. Download and install Git
+
+   https://git-scm.com/downloads (Accept all the default options when installing)
+
+4. Start RStudio and install some packages. This will take a while to run:
+
+   ```
+   install.packages(c("tidyverse", "remotes"))
+   ```
+
+   And finally:
+
+   ```
+   install.packages("datavolley", repos = c("https://openvolley.r-universe.dev", "https://cloud.r-project.org"))
+   ```
+
+
 ## Draft course sessions
 
 1. Introductions and a general overview of R.
