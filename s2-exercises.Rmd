@@ -1,0 +1,83 @@
+---
+title: "Session 2 Exercises"
+author: "Ben Raymond, Adrien Ickowicz"
+output:
+  html_document:
+    toc: false
+    theme: flatly
+    highlight: zenburn
+    css: "extra/exercises.css"
+---
+
+```{r chunkopts, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+options(width=80)
+options(tibble.width = 80, tibble.print_max = 10, tibble.print_min = 10)
+
+```
+
+# Preparation
+
+Load some packages:
+
+```{r setup}
+library(tidyverse)
+library(datavolley)
+
+```
+
+Read in our data
+
+```{r data}
+f <- dir("example_data/DE Men 2019", full.names = TRUE, pattern = "\\.dvw$")
+x <- lapply(f, dv_read, skill_evaluation_decode = "german")
+
+## concatentate the play-by-play data into one big data frame
+px <- bind_rows(lapply(x, plays))
+
+```
+
+Check for inconsistent team names / IDs:
+
+```{r check1}
+px %>% count(team, team_id) %>% arrange(team)
+
+x <- remap_team_names(x, remap = tibble(from = "BERLIN", to = "BERLIN RECYCLING Volleys", to_team_id = "5413"))
+
+px <- bind_rows(lapply(x, plays))
+px %>% count(team, team_id) %>% arrange(team)
+
+check_player_names(x)
+
+```
+
+Add some extra columns:
+
+```{r extracols}
+px <- ov_augment_plays(px, to_add = "all")
+
+```
+
+
+# Exercises
+
+1. What is the mean serve error rate?
+
+2. By team?
+
+3. By team, but only for Herrsching and Giesen? (First find their full team names in the data set)
+
+4. By player?
+
+5. Produce a table (data frame) of mean serve error rate and mean ace rate by team
+
+6. Use that to plot mean serve error rate vs mean ace rate
+
+7. What is the average sideout rate by pass quality (i.e. sideout rate on perfect passes, sideout rate on good passes, etc)
+
+8. Calculate the first-ball attack kill rate (i.e. kill rate on attacks made on serve reception)
+
+9. 9. Calculate the breakpoint rate (fraction of points won while serving) by rotation (use the `setter_position` column), for all teams combined
+
+
+<div id="footer"></div>

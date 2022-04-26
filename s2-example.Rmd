@@ -1,0 +1,41 @@
+---
+title: "Example report"
+output: html_document
+date: '2022-04-26'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(dplyr)
+library(DT)
+library(ggplot2)
+library(datavolley)
+```
+
+```{r data}
+x <- readRDS("example_data/DE Men 2019/processed.rds")
+
+target_team <- "BERLIN RECYCLING Volleys"
+
+```
+
+# `r target_team`
+
+## Serve Table
+
+```{r}
+tx <- x %>% filter(skill == "Serve" & team == target_team) %>% group_by(player_name) %>% summarize(N = n(), err = mean(evaluation == "Error"), ace = mean(evaluation == "Ace"))
+datatable(tx)
+
+```
+
+## Attack Plot
+
+```{r fig.height=8, fig.width=8}
+ax <- x %>% filter(skill == "Attack" & team == target_team)
+
+ggplot(ax, aes(end_coordinate_x, end_coordinate_y)) + geom_point(aes(color = evaluation_code)) +
+  ggcourt(court = "upper", labels = NULL) + facet_wrap(~player_name)
+
+```
+
