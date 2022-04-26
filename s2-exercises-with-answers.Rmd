@@ -1,0 +1,197 @@
+---
+title: "Session 2 Exercises (with answers)"
+author: "Ben Raymond, Adrien Ickowicz"
+output:
+  html_document:
+    toc: false
+    theme: flatly
+    highlight: zenburn
+    css: "extra/exercises.css"
+---
+
+```{r chunkopts, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+options(width=80)
+options(tibble.width = 80, tibble.print_max = 10, tibble.print_min = 10)
+
+```
+
+# Preparation
+
+Load some packages:
+
+```{r setup}
+library(tidyverse)
+library(datavolley)
+
+```
+
+Read in our data
+
+```{r data}
+f <- dir("example_data/DE Men 2019", full.names = TRUE, pattern = "\\.dvw$")
+x <- lapply(f, dv_read, skill_evaluation_decode = "german")
+
+## concatentate the play-by-play data into one big data frame
+px <- bind_rows(lapply(x, plays))
+
+```
+
+Check for inconsistent team names / IDs:
+
+```{r check1}
+px %>% count(team, team_id) %>% arrange(team)
+
+x <- remap_team_names(x, remap = tibble(from = "BERLIN", to = "BERLIN RECYCLING Volleys", to_team_id = "5413"))
+
+px <- bind_rows(lapply(x, plays))
+px %>% count(team, team_id) %>% arrange(team)
+
+check_player_names(x)
+
+```
+
+Add some extra columns:
+
+```{r extracols}
+px <- ov_augment_plays(px, to_add = "all")
+
+```
+
+
+# Exercises
+
+### 1. What is the mean serve error rate?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+px %>% filter(skill == "Serve") %>%
+    summarize(error_rate = mean(evaluation == "Error"))
+
+```
+
+</details>
+
+
+### 2. By team?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+px %>% filter(skill == "Serve") %>%
+    group_by(team) %>%
+    summarize(error_rate = mean(evaluation == "Error"))
+
+```
+
+</details>
+
+### 3. By team, but only for Herrsching and Giesen? (First find their full team names in the data set)
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+px %>% filter(skill == "Serve") %>%
+    filter(team %in% c("HELIOS GRIZZLYS Giesen", "WWK Volleys Herrsching")) %>%
+    group_by(team) %>%
+    summarize(error_rate = mean(evaluation == "Error"))
+
+```
+
+</details>
+
+### 4. By player?
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+px %>% filter(skill == "Serve") %>%
+    group_by(player_name) %>%
+    summarize(error_rate = mean(evaluation == "Error"))
+
+```
+
+Followup: would it be helpful to `group_by(player_name, player_id)` or `group_by(player_name, team)` ?
+
+</details>
+
+
+### 5. Produce a table (data frame) of mean serve error rate and mean ace rate by team
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+team_errors_aces <- px %>% filter(skill == "Serve") %>%
+    group_by(team) %>%
+    summarize(error_rate = mean(evaluation == "Error"), ace_rate = mean(evaluation == "Ace"))
+
+team_errors_aces
+
+```
+
+### 6. Use that to plot mean serve error rate vs mean ace rate
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+ggplot(team_errors_aces, aes(error_rate, ace_rate)) + geom_point()
+
+```
+
+</details>
+
+
+### 7. What is the average sideout rate by pass quality (i.e. sideout rate on perfect passes, sideout rate on good passes, etc)
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+px %>% filter(skill == "Reception") %>%
+    group_by(evaluation) %>%
+    summarize(sideout_rate = mean(point_won_by == team))
+
+```
+
+</details>
+
+
+### 8. Calculate the first-ball attack kill rate (i.e. kill rate on attacks made on serve reception)
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+px %>% filter(skill == "Attack" & phase == "Reception") %>%
+    group_by(team) %>%
+    summarize(first_ball_kill_rate = mean(evaluation == "Winning attack"))
+
+```
+
+</details>
+
+
+### 9. Calculate the breakpoint rate (fraction of points won while serving) by rotation (use the `setter_position` column), for all teams combined
+
+<details>
+  <summary>Click for solution</summary>
+
+```{r}
+
+px %>% filter(skill == "Serve") %>%
+    group_by(setter_position) %>%
+    summarize(breakpoint_rate = mean(point_won_by == team))
+
+```
+
+</details>
+
+
+<div id="footer"></div>
