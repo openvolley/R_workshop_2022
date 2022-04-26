@@ -440,7 +440,7 @@ install_github("owner/repo")
 - but needs to be loaded each session before calling any of its functions:
 
 ```{r eval = FALSE}
-library(dadjokes)
+library(dadjoke)
 dadjoke()
 
 ```
@@ -452,7 +452,7 @@ dadjoke()
 Or use `pkg::fun()` to refer to function `fun` in package `pkg`, even without loading the package first:
 
 ```{r eval = FALSE}
-dadjokes::dadjoke()
+dadjoke::dadjoke()
 
 ```
 > I like telling Dad jokes.
