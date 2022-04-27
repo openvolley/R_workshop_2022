@@ -1,6 +1,6 @@
 ---
 title: "Session 3: advanced reports"
-author: "Ben Raymond, Adrien Ickowicz"
+author: "Adrien Ickowicz, Ben Raymond"
 date: "<div id='logo_footer'></div>"
 output:
   xaringan::moon_reader:
@@ -50,7 +50,7 @@ class: inverse, logo, center
 
 ## Session 3: Advanced reports
 
-### Ben Raymond, Adrien Ickowicz
+### Adrien Ickowicz, Ben Raymond
 
 ##### with valuable contributions from many others...
 
@@ -649,11 +649,6 @@ shinyApp(
 
 .panel[.panel-name[Html share]
 ```{r video_ply_share_html, eval = FALSE, echo = TRUE}
-  ## extract the plays
-  px <- datavolley::plays(x)
-  ## it's a single rally, so we'll use all rows (just exclude NA skill rows)
-  px <- px[!is.na(px$skill), ]
-## define columns to show in the table
   extra_cols <- c("home_team", "visiting_team", "video_time", "code", "set_number", "home_team_score", "visiting_team_score")
   ## make the playlist with extra columns included
   ply <- ov_video_playlist(px, x$meta, extra_cols = c(extra_cols, "player_name"))
