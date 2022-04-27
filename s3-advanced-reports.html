@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Session 3: advanced reports</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ben Raymond, Adrien Ickowicz" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="extra/extra.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+  &lt;div class="my-footer-box"&gt;&lt;a href="https://openvolley.org/"&gt;&lt;img style="display:inline;" src="extra/ovoutline-w.png"/&gt;openvolley.org&lt;/a&gt;&lt;/div&gt;
+  &lt;div class="my-footer-box"&gt;&lt;a href="https://https://volleyball.ca/"&gt;&lt;img src="extra/vc-w-wide.png"/&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class="my-footer-box"&gt;&lt;a href="https://untan.gl/"&gt;&lt;img src="extra/su_title-w.png"/&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+
+
+
+
+class: inverse, logo, center
+
+&lt;img src="extra/3logo2.png" style="width:65%; margin-bottom:50px;" /&gt;
+
+## Session 3: Advanced reports
+
+### Ben Raymond, Adrien Ickowicz
+
+##### with valuable contributions from many others...
+
+---
+
+## What are we going to talk about
+
+- create tables with R
+- using &lt;span class="Rpkg"&gt;rmarkdown&lt;/span&gt;
+  -the &lt;span class="pkg"&gt;volleyreport&lt;/span&gt; package
+- volleyball-specific plots (court plots and other)
+- plotting transformation from image space to court space
+  - overlaying plots onto image
+- the &lt;span class="pkg"&gt;ovva&lt;/span&gt; and &lt;span class="pkg"&gt;ovideo&lt;/span&gt; packages:
+  - saving playlists to CSV
+  - creating your own playlists directly with `ov_video_playlist`
+  - viewing them with `ovplayer`
+  - sharing them with `ov_playlist_to_html` or the `ov_editry_clips` functions
+  - the Science Untangled app for this
+
+---
+
+## Create tables in R
+
+* What kind of tables can you create using R: https://community.rstudio.com/c/table-gallery/64
+* A number of packages are available: &lt;span class="Rpkg"&gt;DT&lt;/span&gt;, &lt;span class="Rpkg"&gt;gt&lt;/span&gt;, &lt;span class="Rpkg"&gt;reactable&lt;/span&gt; ...
+* Let's focus on  &lt;span class="Rpkg"&gt;kableExtra&lt;/span&gt; (for its html capabilities)
+  * Need to install it
+  * Try it
+  * Then the sky is the limit
+
+.panelset[
+.panel[.panel-name[R Code]
+
+
+```r
+library(datavolley)
+library(kableExtra)
+dvw &lt;- dv_read(dv_example_file())
+kable(head(plays(dvw)[,c('code', "player_name", 'skill')]))
+```
+
+]
+
+.panel[.panel-name[HTML output]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; code &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; player_name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; skill &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; *P04&amp;gt;LUp &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; *z3&amp;gt;LUp &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; aP10&amp;gt;LUp &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; az3&amp;gt;LUp &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; *06SM#~~~18C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ANA MARIJA VOVK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Serve &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; a06RM=~~~18CW4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KARMINA SUŠNIK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Reception &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+]
+
+
+
+---
+
+
+## Create tables in R
+
+.panelset[
+
+.panel[.panel-name[Try it!]
+
+Create a table with your own data, and share it!
+
+]
+
+.panel[.panel-name[My R Code]
+
+
+```r
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(kableExtra)
+dvw$meta$teams %&gt;% dplyr::select(.data$team, .data$sets_won) %&gt;%
+        dplyr::rename(Teams = "team", 'Final score' = "sets_won") %&gt;%
+        kable(format = 'html', escape = FALSE, col.names = c("MATCH RESULT", ""), 
+              table.attr = "class=\"widetable\"") %&gt;% 
+  kable_styling(bootstrap_options = c("striped", "hover"), 
+                full_width = TRUE, font_size = 15) %&gt;%
+        row_spec(1:2, bold = TRUE) %&gt;%
+        row_spec(0, bold = TRUE, color = "white", background = "black" ) %&gt;%
+        column_spec(1, border_left = "grey") %&gt;%
+        column_spec(2, border_right = "grey") %&gt;%
+        row_spec(2, extra_css = paste0("border-bottom:", "grey"))
+```
+
+]
+
+.panel[.panel-name[My HTML output]
+
+&lt;table class="widetable table table-striped table-hover" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;font-weight: bold;color: white !important;background-color: black !important;"&gt; MATCH RESULT &lt;/th&gt;
+   &lt;th style="text-align:right;font-weight: bold;color: white !important;background-color: black !important;"&gt;  &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;border-left:grey;"&gt; Braslovče &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;border-right:grey;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;border-left:grey;border-bottom:grey"&gt; Nova KBM Branik &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;border-right:grey;border-bottom:grey"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+]
+
+---
+
+
+## Using rmarkdown
+
+R Markdown is a format for writing reproducible, dynamic reports with R. Use it to embed R code and results into slideshows, pdfs, html documents, Word files and more. Examples:
+
+* The current presentation!
+
+* .Rmd files
+  * Let's open one and check what's in it...
+  * It has its own grammar again!
+  
+---
+
+## Using rmarkdown
+
+* outputs from  &lt;span class="pkg"&gt;volleyreport&lt;/span&gt;
+
+
+```r
+library(volleyreport)
+vr &lt;- vr_match_summary(dvw, format = "paged_png", vote = FALSE)
+browseURL(vr)
+```
+
+---
+
+## Volleyball specfic plots
+
+.panelset[
+.panel[.panel-name[Court]
+&lt;img src="s3-advanced-reports_files/figure-html/court-1.png" height="400px" /&gt;
+]
+.panel[.panel-name[Court - zones]
+&lt;img src="s3-advanced-reports_files/figure-html/court_zones-1.png" height="400px" /&gt;
+]
+.panel[.panel-name[Court - cones]
+&lt;img src="s3-advanced-reports_files/figure-html/court_cones-1.png" height="400px" /&gt;
+]
+.panel[.panel-name[Court - cones (ctd)]
+&lt;img src="s3-advanced-reports_files/figure-html/court_cones2-1.png" height="400px" /&gt;
+]
+]
+
+---
+
+## Volleyball specfic plots
+
+.panelset[
+.panel[.panel-name[Court]
+
+```r
+ggplot() + ggcourt(labels = NULL, show_zones = FALSE) + theme_bw()
+```
+]
+.panel[.panel-name[Court - zones]
+
+```r
+library(ggplot2)
+library(dplyr)
+x &lt;- dv_read(dv_example_file(1))
+## calculate attack frequency by zone, per team
+px &lt;- plays(x)
+attack_rate &lt;- px %&gt;% dplyr::filter(skill == "Attack") %&gt;%
+    group_by(team, start_zone) %&gt;% dplyr::summarize(n_attacks = n()) %&gt;%
+    mutate(rate = n_attacks/sum(n_attacks)) %&gt;% ungroup
+## add x, y coordinates associated with the zones
+attack_rate &lt;- cbind(attack_rate, dv_xy(attack_rate$start_zone, end = "lower"))
+## additionally specify the subzone to dv_xy if you want to plot by subzone (and your data
+##   were scouted with subzones)
+## for team 2, these need to be on the top half of the diagram
+tm2i &lt;- attack_rate$team == teams(x)[2]
+attack_rate[tm2i, c("x", "y")] &lt;- dv_flip_xy(attack_rate[tm2i, c("x", "y")])
+ggplot(attack_rate, aes(x, y, fill = rate)) + geom_tile() + ggcourt(labels = teams(x)) +
+    scale_fill_gradient2(name = "Attack rate")
+```
+]
+.panel[.panel-name[Court - cones]
+
+```r
+x &lt;- dv_read(ovdata_example("190301_kats_beds"))
+px &lt;- plays(x)
+## select left-side (X5) attacks
+attack_rate &lt;- px %&gt;% dplyr::filter(attack_code == "X5") %&gt;%
+    group_by(start_zone, end_cone) %&gt;% dplyr::summarize(n_attacks = n()) %&gt;%
+    mutate(rate = n_attacks/sum(n_attacks)) %&gt;% ungroup
+## add starting locations
+attack_rate &lt;- bind_cols(attack_rate, dv_xy(attack_rate$start_zone, end = "lower"))
+## and end locations
+attack_rate &lt;- bind_cols(attack_rate, dv_cone2xy(start_zones = attack_rate$start_zone,
+                                                 end_cones = attack_rate$end_cone, end = "upper"))
+ggplot(attack_rate, aes(x, y, xend = ex, yend = ey, colour = rate, size = rate)) +
+    ggcourt(labels = NULL) +
+    geom_segment(arrow = arrow(length = unit(2, "mm"), type = "closed", angle = 20)) +
+    scale_colour_distiller(palette = "OrRd", direction = 1, name = "Attack rate") +
+    guides(size = "none")
+```
+]
+.panel[.panel-name[Court - cones (ctd)]
+
+```r
+cxy &lt;- dv_cone2xy(start_zones = attack_rate$start_zone, end_cones = attack_rate$end_cone,
+                      as = "polygons")
+## this returns coordinates as list columns, unpack these to use with ggplot
+##  also add an identifier for each polygon
+cxy &lt;- data.frame(cx = unlist(cxy$ex), cy = unlist(cxy$ey),
+                  id = unlist(lapply(seq_len(nrow(cxy)), rep, 4)))
+attack_rate &lt;- attack_rate %&gt;% mutate(id = row_number()) %&gt;% left_join(cxy, by = "id")
+ggplot(attack_rate, aes(cx, cy, group = id, fill = rate)) +
+    ggcourt(labels = NULL) +
+    geom_polygon() +
+    scale_fill_distiller(palette = "OrRd", direction = 1, name = "Attack rate") 
+```
+]
+]
+
+---
+
+## Volleyball specfic plots - heatmaps
+
+.panelset[
+.panel[.panel-name[Data pts]
+&lt;img src="s3-advanced-reports_files/figure-html/data_pts-1.png" height="400px" /&gt;
+]
+.panel[.panel-name[Heatmap]
+&lt;img src="s3-advanced-reports_files/figure-html/htmp-1.png" height="400px" /&gt;
+]
+.panel[.panel-name[Heatmap - precision]
+&lt;img src="s3-advanced-reports_files/figure-html/htmp_p-1.png" height="400px" /&gt;
+]
+]
+
+---
+
+## Volleyball specfic plots - heatmaps
+
+.panelset[
+.panel[.panel-name[Data pts]
+
+```r
+Na &lt;- 20
+set.seed(17)
+px2 &lt;- tibble(skill = "Attack", end_coordinate_x = c(runif(Na, min = 0.4, max = 1.2), runif(Na, min = 2, max = 3)),
+            end_coordinate_y = c(runif(Na, min = 4.5, max = 6.6), runif(Na, min = 4.9, max = 6.6)))
+
+ggplot(px2 %&gt;% dplyr::filter(skill == "Attack"), aes(end_coordinate_x, end_coordinate_y)) +
+  ggcourt(labels = NULL, court = "upper") +
+  geom_point(colour = "dodgerblue")
+```
+]
+.panel[.panel-name[Heatmap]
+
+```r
+hx &lt;- ovlytics::ov_heatmap_kde(px2 %&gt;% dplyr::filter(skill == "Attack") %&gt;% dplyr::select(end_coordinate_x, end_coordinate_y),
+                     resolution = "coordinates", court = "upper")
+## then plot it
+ggplot(hx, aes(x, y, fill = density)) +
+    scale_fill_distiller(palette = "Spectral", guide = "none") +
+    geom_raster() +
+    ggcourt(labels = NULL, court = "upper") ## plot the court last, so that the lines overlay the heatmap
+```
+]
+.panel[.panel-name[Heatmap - precision]
+
+```r
+ggplot(px2 %&gt;% dplyr::filter(skill == "Attack"), aes(end_coordinate_x, end_coordinate_y)) +
+  stat_density_2d(geom = "raster", aes_string(fill = "..density.."), contour = FALSE, h = 0.85, n = c(60, 120)) +
+  scale_fill_distiller(palette = "Spectral", guide = "none") +
+  ggcourt(labels = NULL, court = "upper")
+```
+]
+]
+
+---
+
+## Volleyball specfic plots - misc
+
+.panelset[
+.panel[.panel-name[Posture]
+&lt;img src="extra/passing_Kacper_Piechocki.png" style="width:90%; margin-bottom:50px;" /&gt; 
+]
+.panel[.panel-name[R Code]
+
+```r
+library(png)
+img &lt;- readPNG('extra/man-volleyball-passing.png')
+g &lt;- grid::rasterGrob(img, interpolate=TRUE)
+
+ggplot() +
+  annotation_custom(g, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf) +
+  geom_point()
+```
+]
+
+]
+
+---
+
+## Plotting transformations
+
+.pull-left[
+* What is the image space?
+* What is the court space?
+* What is a 2D homography?
+
+&lt;img src="extra/2D_homography.png" style="width:90%; margin-bottom:50px;" /&gt; 
+Resource: https://en.wikipedia.org/wiki/Camera_matrix
+]
+.pull-right[
+&lt;img src="extra/example_passing_court_to_image_singleC.png" style="width:75%; margin-bottom:10px; margin-left:40px;" /&gt; 
+]
+
+* Check out &lt;span class="pkg"&gt;ovideo&lt;/span&gt;
+
+
+---
+
+## Overlaying plots onto court images
+
+1. Create an empty court image
+2. Identify the stats to be displayed
+3. Create the shape of interest, and project them
+4. Plot the ensemble
+
+.panelset[
+
+.panel[.panel-name[R Code]
+
+```r
+imref &lt;- system.file("extdata/2019_03_01-KATS-BEDS-court.jpg", package = "ovideo")
+## fake distribution data
+dx &lt;- tribble(~start_zone, ~percent,
+              4, 35,
+              3, 20,
+              2, 30,
+              8, 15)
+## xy start zone coords
+dx &lt;- cbind(dx, datavolley::dv_xy(dx$start_zone))
+```
+]
+.panel[.panel-name[R Code (ctd)]
+
+```r
+## the court reference
+crt &lt;- data.frame(image_x = c(0.05397063, 0.95402573, 0.75039756, 0.28921230),
+                  image_y = c(0.02129301, 0.02294600, 0.52049712, 0.51884413),
+                  court_x = c(0.5, 3.5, 3.5, 0.5),
+                  court_y = c(0.5, 0.5, 6.5, 6.5))
+image_wh &lt;- c(1280, 720)
+## create polygons to plot in image space
+dx &lt;- dx %&gt;% group_by(start_zone, percent) %&gt;% dplyr::summarize(x = x + c(-0.5, 0.5, 0.5, -0.5, -0.5), y = y + c(-0.5, -0.5, 0.5, 0.5, -0.5), .groups = "drop")
+dx &lt;- cbind(dx, setNames(ovideo::ov_transform_points(dx[, c("x", "y")], ref = crt, direction = "to_image"), c("ix", "iy")))
+dx &lt;- dx %&gt;% mutate(ix = ix * image_wh[1], iy = iy * image_wh[2])
+```
+]
+.panel[.panel-name[R Code (ctd)]
+
+```r
+ggplot2::ggplot(dx) +
+    ## background image
+    ggplot2::annotation_custom(grid::rasterGrob(jpeg::readJPEG(imref)), xmin = 0, xmax = image_wh[1], ymin = 0, ymax = image_wh[2]) +
+    ## distribution polygons
+    geom_polygon(aes(x = ix, y = iy, group = start_zone, fill = percent)) +
+    ## finish off
+    scale_fill_distiller(palette = "Purples", direction = 1, name = "%") +
+    ggplot2::coord_fixed(xlim = c(0, image_wh[1]), ylim = c(0, image_wh[2])) + ggplot2::theme_void()
+```
+]
+
+.panel[.panel-name[Image]
+
+&lt;img src="s3-advanced-reports_files/figure-html/rcode_plot_transfo image-1.png" width="200px" /&gt;
+]
+]
+
+---
+
+## Overlaying plots onto court images
+
+.panelset[
+
+.panel[.panel-name[Your turn!]
+
+* Install &lt;span class="pkg"&gt;volleyreport&lt;/span&gt;
+* Use it to create the vizualization you'd like:
+  * `ov_video_frame` extract frame from video
+  * `ov_shiny_court_ref` helps you define the projection
+  * other functions from other packages
+]
+.panel[.panel-name[Example code]
+
+
+```r
+video_file = "~/Documents/Donnees/VolleyBall/Dropbox/server_videos/Southern League 2022 Women - Autumn Videos/2022_04_11W-VIK_vs_UTAS.M4V"
+img_ref = ovideo::ov_video_frame(video_file, t = 100)
+ref &lt;- ovideo::ov_shiny_court_ref(img_ref)
+image_wh &lt;- c(1280, 720)
+## create polygons to plot in image space
+dx &lt;- tribble(~start_zone, ~percent,4, 35,  3, 20,2, 30,8, 15)
+## xy start zone coords
+dx &lt;- cbind(dx, datavolley::dv_xy(dx$start_zone))
+dx &lt;- dx %&gt;% group_by(start_zone, percent) %&gt;% dplyr::summarize(x = x + c(-0.5, 0.5, 0.5, -0.5, -0.5), y = y + c(-0.5, -0.5, 0.5, 0.5, -0.5), .groups = "drop")
+dx &lt;- cbind(dx, setNames(ovideo::ov_transform_points(dx[, c("x", "y")], ref = ref$court_ref, direction = "to_image"), c("ix", "iy")))
+dx &lt;- dx %&gt;% mutate(ix = ix * image_wh[1], iy = iy * image_wh[2])
+ggplot2::ggplot(dx) +
+    ggplot2::annotation_custom(grid::rasterGrob(jpeg::readJPEG(img_ref)), xmin = 0, xmax = image_wh[1], ymin = 0, ymax = image_wh[2]) +
+    geom_polygon(aes(x = ix, y = iy, group = start_zone, fill = percent), alpha = 0.5) +
+    scale_fill_distiller(palette = "Purples", direction = 1, name = "%") +
+    ggplot2::coord_fixed(xlim = c(0, image_wh[1]), ylim = c(0, image_wh[2])) + ggplot2::theme_void()
+```
+
+]
+.panel[.panel-name[Example output]
+
+&lt;img src="extra/example_projection.png" style="width:75%; margin-bottom:50px;" /&gt;
+
+]
+
+]
+---
+
+## Working with videos
+
+What can we do with videos?
+  * Create playlists
+  * Saving playlists to csv
+  * Share playlists with &lt;span class="pkg"&gt;ovplayer&lt;/span&gt;
+  * Share palylists as objects
+  * More ? SU's &lt;span class="pkg"&gt;ovva&lt;/span&gt;, &lt;span class="pkg"&gt;volleyspike&lt;/span&gt;...
+
+---
+
+## Working with videos
+
+Function #1: `ov_video_playlist()`:
+
+.panelset[
+
+.panel[.panel-name[Create playlist]
+
+```r
+library(ovideo)
+x &lt;- datavolley::dv_read(filename = "&amp;180527 iri jpn.dvw")
+dv_meta_video(x) &lt;- "NisDpPFPQwU"
+## extract play-by-play data
+px &lt;- datavolley::plays(x)
+px$video_time 
+## find pipe (XP) attacks in transition
+px &lt;- px[which(px$attack_code == "XP" &amp; px$phase == "Transition"), ]
+## create playlist
+ply &lt;- ov_video_playlist(px, x$meta, timing = ov_video_timing())
+## with custom timing
+ply &lt;- ov_video_playlist(px, x$meta,
+  timing = ov_video_timing_df(data.frame(skill = "Attack", phase = "Transition",
+                              start_offset = -5, duration = 10, stringsAsFactors = FALSE)))
+```
+]
+
+.panel[.panel-name[Then what?]
+
+```r
+# To ovplayer:
+shinyApp(
+      ui = fluidPage(
+          ov_video_js(youtube = TRUE, version = 2),
+          ov_video_player(id = "yt_player", type = "youtube",
+                          version = 2, controller_var = "my_dv",
+                          style = "height: 480px; background-color: black;",
+                          controls = tags$button("Go",
+                                     onclick = ov_playlist_as_onclick(ply, "yt_player",
+                                                                      controller_var = "my_dv")))
+      ),
+      server = function(input, output) {},
+  )
+```
+]
+
+.panel[.panel-name[Html share]
+
+```r
+  ## extract the plays
+  px &lt;- datavolley::plays(x)
+  ## it's a single rally, so we'll use all rows (just exclude NA skill rows)
+  px &lt;- px[!is.na(px$skill), ]
+## define columns to show in the table
+  extra_cols &lt;- c("home_team", "visiting_team", "video_time", "code", "set_number", "home_team_score", "visiting_team_score")
+  ## make the playlist with extra columns included
+  ply &lt;- ov_video_playlist(px, x$meta, extra_cols = c(extra_cols, "player_name"))
+  ## use player name as the subtitle
+  ply$subtitle &lt;- ply$player_name
+  ## convert to HTML
+  f &lt;- ov_playlist_to_html(ply, table_cols = extra_cols)
+  ## and finally open it!
+  browseFile(f)
+```
+]
+
+]
+
+---
+
+## Working with videos
+
+* Create clips? Create a video highlight:
+
+  * Check out &lt;span class="pkg"&gt;ovva&lt;/span&gt;,
+  * Look into `ov_editry_clip()`
+  * Open `s3-create-video-highlight.R` for an example script
+
+---
+
+## Science untangled - videos, tables, communicating efficiently
+
+
+* https://apps.untan.gl/ovva/
+  * Example video
+
+* https://apps.untan.gl/spike-example-R2022/
+  * Example for the women's world championship 2018
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="extra/remark-latest.min.js"></script>
+<script src="extra/macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
