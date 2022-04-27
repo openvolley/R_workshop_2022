@@ -506,7 +506,7 @@ ggplot2::ggplot(dx) +
 ```{r rcode_plot_transfo image, echo = FALSE, eval = TRUE, out.width = '200px'}
 imref <- system.file("extdata/2019_03_01-KATS-BEDS-court.jpg", package = "ovideo")
 im <- system.file("extdata/2019_03_01-KATS-BEDS-frame.png", package = "ovideo")
-imdiff <- su.apputils::su_image_diff(im, imref, fuzz = 10, as = "filename")
+imdiff <- "extra/2019_03_01-KATS-BEDS-frame-difference.png"
 
 ## fake distribution data
 dx <- tribble(~start_zone, ~percent,
