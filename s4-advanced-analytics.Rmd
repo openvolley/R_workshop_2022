@@ -50,7 +50,7 @@ class: inverse, logo, center
 
 ## Session 4: Advanced analytics
 
-### Ben Raymond, Adrien Ickowicz
+### Adrien Ickowicz, Ben Raymond
 
 ##### with valuable contributions from many others...
 
@@ -134,16 +134,47 @@ In a nutshell, when you cannot narrow down the factors that influence the uncert
 ---
 
 ## Simulating matches
-#### the <span class="pkg">volleysim</span> package
+#### the <span class="pkg">volleysim</span> package:
+
+```{r list_function_vs, results='asis'}
+library(volleysim)
+list_fun_vs <- lsf.str("package:volleysim")
+cat(paste('-', list_fun_vs), sep = '\n')
+```
+
 
 ---
 
 ## Simulating matches
-#### the <span class="pkg">bandit</span> package
+#### the <span class="pkg">volleysim</span> package:
+
+A quick overview: https://untan.gl/r-package-simulating-volleyball.html
+
+Our turn. Open `s4-example-volleysim`.
+
+---
+
+## Simulating matches
+
+The bandit functions in the <span class="pkg">ovlytics</span> package
+
+```{r list_function_ovl, results='asis'}
+library(ovlytics)
+list_fun_ovl <- lsf.str("package:ovlytics")
+cat(paste('-', list_fun_ovl[c(14,11, 10, 8, 4)]), sep = '\n')
+```
+
+What is this? See https://untan.gl/setter-choice.html
+
+Our turn. Open `s4-example-bandit`.
+
+And if you dont want to code... https://apps.untan.gl/bandit/
 
 ---
 
 ## Do you know...
+
+More analytics articles:
 
 https://untan.gl/index.html
 
@@ -154,6 +185,8 @@ https://untan.gl/index.html
 
 Question: Does height influence the passing quality?
 
+Open `s4-player-height-passing`.
+
 ---
 
 ## Statistical models
@@ -163,8 +196,29 @@ Question 1 : Should we ban serving errors ?
 
 Question 2 : Is there an optimal serve speed for which the expected break-point is maximum ?
 
+Open `s4-serve-speed-example`.
+
 ---
 
 
 ## Statistical models
-#### Setter entropy analysis
+#### Identifying a defensive system
+
+A blog post: https://untan.gl/identifying-defensive-systems.html
+
+An app: https://apps.untan.gl/volleydef/
+
+<img src="extra/defensive_zones.png" style="width:90%; margin-bottom:50px;" /> 
+
+---
+
+## Statistical models
+#### Identifying a reception system
+
+Can we do the same with reception? 
+
+An app also: https://apps.untan.gl/volleypass/
+
+<img src="extra/reception_zones_P1.png" style="width:70%; margin-bottom:10px;" /> 
+
+WMCH 2018 - Italy - P2. What is happening?
