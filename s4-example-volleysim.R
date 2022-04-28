@@ -13,9 +13,11 @@ vs_simulate_match(rates, simple = TRUE)
 
 summary(x)
 
-rates <- tribble(~team, ~serve_ace, ~serve_error, ~rec_set_error, ~rec_att_error, ~rec_att_kill, ~trans_set_error, ~trans_att_error, ~trans_att_kill, ~sideout, ~rec_block, ~trans_block,
-                 "My Team",    0.062, 0.156, 0.009, 0.071, 0.499, 0.018, 0.082, 0.452, 0.668, 0.075, 0.079,
-                 "Other Team", 0.069, 0.190, 0.014, 0.063, 0.523, 0.021, 0.102, 0.435, 0.683, 0.083, 0.109)
+rates <- tribble(~team, ~serve_ace, ~serve_error, ~rec_set_error, ~rec_att_error, ~rec_att_kill, ~trans_set_error,
+                 ~trans_att_error, ~trans_att_kill, ~sideout, ~rec_block, ~trans_block,~rec_loss_other, ~rec_att_replayed,
+                 ~rec_no_att, ~trans_loss_other, ~trans_att_replayed, ~trans_no_att,
+                 "My Team",    0.062, 0.156, 0.009, 0.071, 0.499, 0.018, 0.082, 0.452, 0.668, 0.075, 0.079,0.05, .01, 0.1,0.15,0.05,0.1,
+                 "Other Team", 0.069, 0.190, 0.014, 0.063, 0.523, 0.021, 0.102, 0.435, 0.683, 0.083, 0.109, 0.05, 0.01, 0.1, 0.15,0.05,0.1)
 knitr::kable(rates)
 
 
