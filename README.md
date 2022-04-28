@@ -52,3 +52,6 @@ The example data used in this workshop was provided by:
 - `DE Men 2019` - 10 matches from the 2019/20 German 1. Bundesliga (Men) season, provided by Michael Mattes
 - `DE Women 2020` - 3 matches from the 2020/21 German 1. Bundesliga (Women) season, provided by Michael Mattes
 - `VNL_Women_2021.csv` - a summary of team performance from the 2021 Women's Volleyball Nations League. Match data provided by Pablo Sánchez Morillas and Lauren Bertolacci, and analyzed with https://apps.untan.gl
+- `NCAA_D1W_2019.csv` - set scores from the 2019 NCAA D1 season, from https://stats.ncaa.org/
+- `Serve_Speed_Example` - serve speed data, provided by Felipe Aparecido Lima
+- `rec_height_ITA` - long-term player heights and passing performance from the Italian A1 league, from http://www.legavolley.it/
