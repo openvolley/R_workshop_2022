@@ -168,14 +168,6 @@ image_file
 ---
 ## The ovml package
 
-Helpers &mdash; extracting video frames
-
-<img src="`r image_file`" />
-
-
----
-## The ovml package
-
 Helpers &mdash; converting to court coordinates
 
 Also in the ovideo package:
