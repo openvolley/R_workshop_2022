@@ -155,7 +155,7 @@ ovml_ggplot(image_file, res)
 Helpers &mdash; extracting video frames
 
 ```{r}
-my_video_file <- system.file("extdata/video/2019_03_01-KATS-BEDS-clip.mp4", package = "ovdata")
+my_video_file <- ovdata::ovdata_example_video("190301_kats_beds")
 my_video_file
 
 library(ovideo)
@@ -344,7 +344,7 @@ Images courtesy Tyler Widdison
 ---
 ## Next steps &mdash; height
 
-<img src="`r system.file("extdata/2019_03_01-KATS-BEDS-frame.png", package = "ovideo")`" style="max-height:45vh;" />
+<img src="`r ovdata::ovdata_example_image(choice = "190301_kats_beds")`" style="max-height:45vh;" />
 
 
 - multiple cameras?

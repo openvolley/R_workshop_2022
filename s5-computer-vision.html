@@ -161,12 +161,12 @@ Helpers &amp;mdash; extracting video frames
 
 
 ```r
-my_video_file &lt;- system.file("extdata/video/2019_03_01-KATS-BEDS-clip.mp4", package = "ovdata")
+my_video_file &lt;- ovdata::ovdata_example_video("190301_kats_beds")
 my_video_file
 ```
 
 ```
-[1] "/home/ben/R/x86_64-pc-linux-gnu-library/4.1/ovdata/extdata/video/2019_03_01-KATS-BEDS-clip.mp4"
+[1] "/home/ben/R/x86_64-pc-linux-gnu-library/4.2/ovdata/extdata/video/2019_03_01-KATS-BEDS-clip.mp4"
 ```
 
 ```r
@@ -177,7 +177,7 @@ image_file
 ```
 
 ```
-[1] "/tmp/RtmpGzXGSO/file607c67e5d5545.jpg"
+[1] "/tmp/Rtmpu8a1Kh/file3560a3855f2cc.jpg"
 ```
 
 ---
@@ -397,7 +397,7 @@ Images courtesy Tyler Widdison
 ---
 ## Next steps &amp;mdash; height
 
-&lt;img src="/home/ben/R/x86_64-pc-linux-gnu-library/4.1/ovideo/extdata/2019_03_01-KATS-BEDS-frame.png" style="max-height:45vh;" /&gt;
+&lt;img src="/home/ben/R/x86_64-pc-linux-gnu-library/4.2/ovdata/extdata/images/2019_03_01-KATS-BEDS-frame.png" style="max-height:45vh;" /&gt;
 
 
 - multiple cameras?
@@ -495,6 +495,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
