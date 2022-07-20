@@ -33,17 +33,17 @@ Participants are asked to install R, RStudio, Git, and some R packages in prepar
    ```
 
 
-## Draft course sessions
+## Course sessions
 
-1. Introductions and a general overview of R.
+1. [An introduction to R](https://openvolley.github.io/R_workshop_2022/s1-intro-R.html)<br />Introductions and a general overview of R.
 
-1. Focus on the `datavolley` package in R, reading your data in and working with it.
+2. [The R datavolley package](https://openvolley.github.io/R_workshop_2022/s2-datavolley-basics.html)<br />Focus on the `datavolley` package in R, reading your data in and working with it.
 
-1. Different methods of conveying information (tables, graphs, court plots, video) and how to generate these in R. Heatmaps, video playlists, and more.
+3. [Advanced reports](https://openvolley.github.io/R_workshop_2022/s3-advanced-reports.html)<br />Different methods of conveying information (tables, graphs, court plots, video) and how to generate these in R. Heatmaps, video playlists, and more.
 
-1. Advanced analytics to support decision making, match preparation, and similar. Examples of statistical models, simulating matches.
+4. [Advanced analytics](https://openvolley.github.io/R_workshop_2022/s4-advanced-analytics.html)<br />Advanced analytics to support decision making, match preparation, and similar. Examples of statistical models, simulating matches.
 
-1. Other odds and ends: computer vision and video processing, a brief introduction to R Shiny apps.
+5. [Computer vision in R](https://openvolley.github.io/R_workshop_2022/s5-computer-vision.html)<br />Other odds and ends, including computer vision and video processing.
 
 ## Acknowledgements
 
