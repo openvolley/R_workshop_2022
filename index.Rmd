@@ -1,0 +1,56 @@
+---
+title: "Volleyball Analytics with R and the Openvolley Project"
+author: "Ben Raymond, Adrien Ickowicz"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    seal: false
+    self_contained: false
+    css: ["extra/extra.css"]
+    chakra: extra/remark-latest.min.js
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+    mathjax: null
+---
+
+layout: true
+
+<div class="my-footer">
+  <div class="my-footer-box"><a href="https://openvolley.org/"><img style="display:inline;" src="extra/ovoutline-w.png"/>openvolley.org</a></div>
+  <div class="my-footer-box"><a href="https://https://volleyball.ca/"><img src="extra/vc-w-wide.png"/></a></div>
+  <div class="my-footer-box"><a href="https://untan.gl/"><img src="extra/su_title-w.png"/></a></div>
+</div>
+
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+options(knitr.kable.NA="")
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FALSE, dpi = 120, fig.height = 3, fig.width = 6)
+library(dplyr)
+library(ggplot2)
+library(datavolley)
+library(knitr)
+options(tibble.width = 65, tibble.print_max = 10, tibble.print_min = 10, width = 80)
+
+```
+
+class: inverse, logo, center
+
+<img src="extra/3logo2.png" style="width:65%; margin-bottom:20px;" />
+
+## Volleyball Analytics with R and the Openvolley Project
+
+### Ben Raymond, Adrien Ickowicz
+
+Session 1: [An introduction to R](s1-intro-R.html)
+
+Session 2: [The R datavolley package](s2-datavolley-basics.html)
+
+Session 3: [Advanced reports](s3-advanced-reports.html)
+
+Session 4: [Advanced analytics](s4-advanced-analytics.html)
+
+Session 5: [Computer vision in R](s5-computer-vision.html)
